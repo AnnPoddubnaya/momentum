@@ -129,17 +129,74 @@ buttonRight.addEventListener('click', getSlideNext);
 //=========================================//
 
 const buttonLeft = document.querySelector('.slide-prev');
-console.log(buttonLeft);
+// console.log(buttonLeft);
 
 function getSlidePrev(){
   setBg();
 let current = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum2}.jpg')`;
 for ( let i = 20; i <= 1; i++){
   current--;
-  console.log(current);
+  // console.log(current);
   if ( current === 1){
     return current = 20;
   }
 }
 }
 buttonLeft.addEventListener('click', getSlidePrev);
+
+//weather
+const weather = document.querySelector('.weather');
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
+const city = document.querySelector('.city');
+
+
+async function getWeather() {  
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=9f704707432bb2cec4e3c4893fc8a816&units=metric
+  `;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  // console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
+  weatherIcon.className = 'weather-icon owf';
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${data.main.temp}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+}
+  function setCity(event) {
+        if (event === 'Enter') {
+          getWeather();
+          city.blur();
+        }     
+}
+
+getWeather();
+document.addEventListener('change', getWeather);
+city.addEventListener('keypress', setCity);
+
+
+//quotes
+
+const quoteChange = document.querySelector('.change-quote');
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+const changeQuote = document.querySelector('.change-quote');
+
+
+async function getQuotes() {  
+  const quotes = 'data.json';
+  const res = await fetch(quotes);
+  const data = await res.json(); 
+
+  let rand = (Math.floor(Math.random() * (data.length) - 0)) + 0;
+
+quote.textContent = data[rand].text;
+author.textContent = data[rand].author;
+ 
+}
+getQuotes();
+
+changeQuote.addEventListener('click',  getQuotes);
+
+//player
+
