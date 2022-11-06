@@ -1,5 +1,5 @@
 
-//часы и календарь==========================================================================================
+//data ana time------1----------
 
 const timeBlock = document.querySelector('.time');
 
@@ -27,7 +27,7 @@ function showDate(){
 }
 
 
-//приветствие==========================================================================================
+//greeting-------2-------
 
 const greeting = document.querySelector('.greeting');
 
@@ -76,7 +76,7 @@ function getLocalStorage() {
 window.addEventListener('load', getLocalStorage);
 
 
-  //bacgrounImage===========================================================================================
+  //bacgrounImage-----3-----
 
  const body = document.getElementsByTagName('body')[0];
  //   console.log(body);
@@ -111,7 +111,7 @@ function setBg() {
   }
   setBg();
 
-//slider=================================================================================================
+//slider==================================================================================
 
 const buttonRight = document.querySelector('.slide-next');
 // console.log(buttonRight);
@@ -147,38 +147,36 @@ for ( let i = 20; i <= 1; i++){
 }
 buttonLeft.addEventListener('click', getSlidePrev);
 
-//weather
-// const weather = document.querySelector('.weather');
-// const weatherIcon = document.querySelector('.weather-icon'); 
-// const temperature = document.querySelector('.temperature');
-// const weatherDescription = document.querySelector('.weather-description');
-// const city = document.querySelector('.city');
+//weather------4--------
+const weather = document.querySelector('.weather');
+const weatherIcon = document.querySelector('.weather-icon'); 
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
+const city = document.querySelector('.city');
+city.value = 'Санкт-Петербург';
+
+async function getWeather() {  
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=f5020f72bbf9dc540d62747a839345c9&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  // console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
+  weatherIcon.innerHTML = `<img src="https://openweathermap.org/img/wn/${data.weather[0]['icon']}@2x.png">`;
+  temperature.textContent = `${data.main.temp}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+}
+  function setCity(event) {
+        if (event === 'Enter') {
+          getWeather();
+          city.blur();
+        }     
+}
+
+getWeather();
+document.addEventListener('change', getWeather);
+city.addEventListener('keypress', setCity);
 
 
-// async function getWeather() {  
-//   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=9f704707432bb2cec4e3c4893fc8a816&units=metric
-//   `;
-//   const res = await fetch(url);
-//   const data = await res.json(); 
-//   // console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
-//   weatherIcon.className = 'weather-icon owf';
-//   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-//   temperature.textContent = `${data.main.temp}°C`;
-//   weatherDescription.textContent = data.weather[0].description;
-// }
-//   function setCity(event) {
-//         if (event === 'Enter') {
-//           getWeather();
-//           city.blur();
-//         }     
-// }
-
-// getWeather();
-// document.addEventListener('change', getWeather);
-// city.addEventListener('keypress', setCity);
-
-
-//quotes
+//quotes--------5-------
 
 const quoteChange = document.querySelector('.change-quote');
 const quote = document.querySelector('.quote');
@@ -201,7 +199,7 @@ getQuotes();
 
 changeQuote.addEventListener('click',  getQuotes);
 
-//player
+//player---------6--------
 const audio = document.querySelector('audio');
 const button = document.querySelector('.play');
 let currentTime = 0;
@@ -231,7 +229,7 @@ function toggleBtn(){
 button.addEventListener('click', toggleBtn);
 button.addEventListener('click', playAudio);
 
-//======================================
+
 
 const buttonNext = document.querySelector('.play-next');
 const buttonPrev = document.querySelector('.play-prev');
@@ -295,113 +293,3 @@ function currentAudio() {
     })
     
 }
- //=================================================================
-//6. Аудиоплеер
-// const audio = document.querySelector("audio");
-// const playBtn = document.querySelector(".play");
-// const pause = document.querySelector(".pause");
-// const prevBtn = document.querySelector(".play-prev");
-// const nextBtn = document.querySelector(".play-next");
-// const playListAudio = document.querySelector(".play-list");
-// const titleSong = document.querySelector(".title");
-// const progressContainer = document.querySelector('.progress-container')
-// const progress = document.querySelector('.progress');
-
-// let currentTime = 0;
-// let playNum = 0;
-// let isPlay = false;
-// import playList from "./playList.js";
-
-// function loadSong() {
-//   titleSong.textContent = playList[playNum].title;
-//   audio.src = playList[playNum].src;
-// }
-
-// loadSong()
-
-// function playSong() {
-//   if (!isPlay) {
-//     audio.play();
-//     isPlay = true;
-//   } else {
-//     audio.pause();
-//     isPlay = false;
-//   }
-// }
-
-// function toggleBtn() {
-//     playBtn.classList.toggle("pause");
-// }
-
-// playBtn.addEventListener("click", toggleBtn);
-// playBtn.addEventListener("click", playSong);
-
-// function NextSong () {
-//     if (playNum === playList.length - 1) {
-//         playNum = 0;
-//     } else {
-//         playNum++;
-//     }
-//     loadSong();
-//     if(isPlay) {
-//         isPlay = false;
-//         playSong();
-//     }
-//     currentSong();
-// }
-
-// function prevSong () {
-//     if (playNum === 0) {
-//         playNum = playList.length - 1;
-//     } else {
-//         playNum--;
-//     }
-//     loadSong()
-//     if(isPlay) {
-//         isPlay = false;
-//         playSong();
-//     }
-//     currentSong();
-// }
-
-// nextBtn.addEventListener('click', NextSong);
-// prevBtn.addEventListener('click', prevSong);
-
-// function updateProgress () {
-//     currentTime = audio.currentTime;
-//     const progressPercent = (currentTime / audio.duration) *100;
-//     progress.style.width = `${progressPercent}%`
-// }
-
-// function setProgress (event) {
-//     const width = progressContainer.clientWidth;
-//     const clickX = event.offsetX;
-//     audio.currentTime = (clickX / width) * audio.duration;
-// }
-
-// audio.addEventListener('timeupdate', updateProgress);
-// progressContainer.addEventListener('click', setProgress);
-// audio.addEventListener('ended', NextSong);
-
-// playList.forEach((el, index) => {
-//     const li = document.createElement('li');
-//     li.classList.add('play-list__item');
-//     li.textContent = el.title;
-//     playListAudio.append(li);
-//     if (index === playNum) {
-//         li.classList.add('play-list__item_active');
-    
-//     }
-// })
-
-// const playListItems = document.querySelectorAll('.play-list__item');
-
-// function currentSong() {
-//     playListItems.forEach((el, index) => {
-//         el.classList.remove('play-list__item_active');
-//         if (index === playNum) {
-//             el.classList.add('play-list__item_active');
-//         }
-//     })
-    
-// }
